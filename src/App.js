@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Details from './Components/Details';
+import List from './Components/List';
 
 function App() {
+  const [list, setList] = useState([])
+  const [selectedListElement, setSelected] = useState('')
+
+  useEffect(() => {
+      fetch('https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/users.json')
+      .then((response) => response.json())
+      .then((data) => ((setList(data))))
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <List select = {(data) => setSelected(data)} list = {list} selected = {selectedListElement}/>
+     {selectedListElement !== '' && <Details info = {selectedListElement}/>}
     </div>
   );
 }
